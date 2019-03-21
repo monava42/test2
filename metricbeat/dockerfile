@@ -1,0 +1,7 @@
+FROM docker.elastic.co/beats/metricbeat:6.6.2
+# Copy our custom configuration file
+COPY metricbeat.yml /usr/share/metricbeat/metricbeat.yml
+USER root
+# Change permissions for metricbeat directory
+RUN chown -R root /usr/share/metricbeat/
+RUN chmod -R go-w /usr/share/metricbeat/

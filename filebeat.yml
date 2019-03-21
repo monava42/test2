@@ -1,0 +1,29 @@
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+filebeat.inputs:
+  - type: log
+    enabled: true
+    ignore_older: 48h
+    paths:
+      - /usr/share/filebeat/dockerlogs/data/messages*
+
+logging.level: debug
+#logging.to_files: true
+#logging.to_syslog: false
+
+#output.file:
+#  path: "/usr/share/filebeat/"
+#  filename: qwerty
+output.kafka:
+  enabled: true
+  version: 2.0.0
+
+  hosts: ["kafka:9092"]
+  topic: 'TopicSysLog'
+  partition.round_robin:
+    reachable_only: false
+  required_acks: -1
+  compression: gzip
+  max_message_bytes: 1000000
